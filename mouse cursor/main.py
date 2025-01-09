@@ -1,22 +1,27 @@
 import pygame
 
-
 pygame.init()
-width, height = 500, 400
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("свой курсор мыши")
-cursor_image = pygame.image.load("data/arrow.png")
-rect = cursor_image.get_rect()
-pygame.mouse.set_visible(False)
-
-while True:
+w, h = 400, 400
+s = pygame.display.set_mode((w, h))
+pygame.display.set_caption('Желтый круг')
+circle = 0
+pos = (0, 0)
+gr = False
+v = 10
+clock = pygame.time.Clock()
+run = True
+while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
-    screen.fill((0, 0, 0))
-    if pygame.mouse.get_focused():
-        x, y = pygame.mouse.get_pos()
-        rect.topleft = (x, y)
-        screen.blit(cursor_image, rect)
+            run = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            pos = event.pos
+            circle = 0
+            gr = True
+    s.fill('blue')
+    if gr:
+        circle += v * (clock.get_time() / 1000)
+    pygame.draw.circle(s, 'yellow', pos, int(circle))
     pygame.display.flip()
+    clock.tick(60)
+pygame.quit()
